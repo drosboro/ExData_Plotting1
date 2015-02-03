@@ -11,8 +11,12 @@ if (!file.exists("household_power_consumption.txt")) {
 
 # Create filtered file containing only dates of interest, if it doesn't exist
 if (!file.exists("hpc_filtered.txt")) {
-  system("head -n 1 household_power_consumption.txt > hpc_filtered.txt")
-  system("grep '^[12]/2/2007;' household_power_consumption.txt >> hpc_filtered.txt")
+  try(system("head -n 1 household_power_consumption.txt > hpc_filtered.txt"))
+  try(system("grep '^[12]/2/2007;' household_power_consumption.txt >> hpc_filtered.txt"))
+  
+  if (!file.exists("hpc_filtered.txt")) {
+    stop("Couldn't generate filtered data from raw data file (expecting UNIX-like operating system)")
+  }
 }
 
 # Read data from filtered file
