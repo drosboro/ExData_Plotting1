@@ -1,6 +1,8 @@
-# Require data file to exist in working directory
+# Check for existing filtered data set (keeps only required dates for the project)
+# NOTE: this will likely only work on Mac / Linux / other UNIX-like OS
 if (!file.exists("hpc_filtered.txt")) {
   
+  # Checks for raw data file, downloads and unzips a fresh copy if it's missing
   if (!file.exists("household_power_consumption.txt")) {
     try(download.file("https://d396qusza40orc.cloudfront.net/exdata%2Fdata%2Fhousehold_power_consumption.zip",
                       "household_power_consumption.zip", method="curl"))
@@ -11,7 +13,7 @@ if (!file.exists("hpc_filtered.txt")) {
     }
   }
 
-# Create filtered file containing only dates of interest, if it doesn't exist
+  # Create filtered file containing only dates of interest
   try(system("head -n 1 household_power_consumption.txt > hpc_filtered.txt"))
   try(system("grep '^[12]/2/2007;' household_power_consumption.txt >> hpc_filtered.txt"))
   
